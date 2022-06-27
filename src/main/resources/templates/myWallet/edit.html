@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head('Home')}"></head>
+<body>
+	<div th:replace="~{base :: logo}"></div>
+
+	<div class="container">
+		<div th:replace="~{base :: titulo('Novo Vault')}"></div>
+
+		<div class="card mt-3">
+			<form th:action="@{/myWallet/save}" th:object="${requestNewVaultDTO}" class="card-body" method="post">
+				<div class="form-group p-2">
+					<label for="name"></label> 
+					<input th:field="*{name}" th:errorclass="is-invalid" class="form-control" placeholder="Nome" />
+					<div class="invalid-feedback" th:errors="*{name}">Erros no nome</div>
+				</div>
+				
+				<div class="form-group p-2">
+					<label for="amount"></label> 
+					<input type="number" step="any" th:field="*{amount}" th:errorclass="is-invalid" class="form-control" placeholder="Valor" />
+					<div class="invalid-feedback" th:errors="*{amount}">Erros no valor</div>
+				</div>
+
+				<button class="btn btn-primary m-2" type="submit">Salvar</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

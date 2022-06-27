@@ -10,23 +10,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.univates.walletcontrol.model.entity.User;
-import br.univates.walletcontrol.model.repository.UserRepository;
+import br.univates.walletcontrol.service.UserService;
 
 @Controller
 @RequestMapping("user")
 public class UserController {
 
 	@Autowired
-	private UserRepository userRepo;
-		
-    @GetMapping
-    public List<User> listAll(){
-        return userRepo.findAll();
-    }
+	private UserService userService;
 
-    @PostMapping
-    public User save(@RequestBody User user){
-        return userRepo.save(user);
-    }
-    
+	@GetMapping
+	public List<User> listAll() {
+		return userService.findAll();
+	}
+
+	@PostMapping
+	public User save(@RequestBody User user) {
+		return userService.save(user);
+	}
+
 }

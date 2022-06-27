@@ -3,7 +3,6 @@ package br.univates.walletcontrol.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.univates.walletcontrol.controller.dto.RequestNewUserDTO;
-import br.univates.walletcontrol.model.entity.User;
-import br.univates.walletcontrol.model.repository.UserRepository;
+import br.univates.walletcontrol.service.UserService;
 
 /**
  * @author Arthur
@@ -22,12 +20,10 @@ import br.univates.walletcontrol.model.repository.UserRepository;
 public class RegisterController {
 
 	@Autowired
-	private UserRepository userRepo;
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private UserService userService;
 
 	@GetMapping
-	public String register(RequestNewUserDTO requisicao) {
+	public String register(RequestNewUserDTO request) {
 		return "register";
 	}
 
@@ -36,10 +32,7 @@ public class RegisterController {
 		if (result.hasErrors())
 			return "register";
 
-		User user = request.toUser();
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-		userRepo.save(user);
+		userService.encodePasswordAndSave(request.toUser());
 
 		return "redirect:/login";
 	}
